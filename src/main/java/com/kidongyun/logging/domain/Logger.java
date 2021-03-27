@@ -21,7 +21,7 @@ public class Logger extends Thread {
             e.printStackTrace();
 
         } finally {
-            log.info("execute times : " + (System.currentTimeMillis() - start));
+            log.info("Logging Finish Time : " + (System.currentTimeMillis() - start));
         }
     }
 }
