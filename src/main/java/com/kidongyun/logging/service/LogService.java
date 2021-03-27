@@ -1,6 +1,6 @@
 package com.kidongyun.logging.service;
 
-import com.kidongyun.logging.domain.Logger;
+import com.kidongyun.logging.domain.LoggerBasedThread;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LogService {
-    private final Logger logger;
+    private final LoggerBasedThread loggerBasedThread;
 
     public void logging() {
-        logger.start();
+        loggerBasedThread.start();
     }
 }

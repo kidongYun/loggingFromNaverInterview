@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class Logger extends Thread {
+public class LoggerBasedThread extends Thread {
     @Override
     public void run() {
         heavyLogging();
@@ -21,7 +21,7 @@ public class Logger extends Thread {
             e.printStackTrace();
 
         } finally {
-            log.info("Logging Finish Time : " + (System.currentTimeMillis() - start));
+            log.info("Thread ID : " + this.hashCode() + " Logging Finish Time : " + (System.currentTimeMillis() - start));
         }
     }
 }
