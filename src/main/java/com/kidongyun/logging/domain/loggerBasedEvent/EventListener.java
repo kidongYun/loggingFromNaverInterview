@@ -16,10 +16,12 @@ public class EventListener extends Thread {
         try {
             while(true) {
                 Thread.sleep(2000);
-                log.info("Thread ID : " + this.hashCode() + " EventListener is listening...");
-
                 if(eventQueue.isEmpty()) {
                     continue;
+                }
+
+                if("LOG".equals(eventQueue.peek())) {
+                    Thread.sleep(2000);
                 }
             }
 

@@ -20,13 +20,14 @@ public class HelloController {
     @ExecuteLog
     @GetMapping("/basedThread")
     public ResponseEntity<?> helloBasedThread() {
-        logService.logging();
+        logService.loggingBasedThread();
         return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK.getReasonPhrase());
     }
 
     @ExecuteLog
     @GetMapping("/basedEvent")
     public ResponseEntity<?> helloBasedEvent() {
+        logService.loggingBasedEvent();
         return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK.getReasonPhrase());
     }
 }
