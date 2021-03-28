@@ -3,29 +3,32 @@ package com.kidongyun.logging.domain.loggerBasedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 @Slf4j
 @Component
 public class EventListener extends Thread {
-    private boolean flag = true;
+    private static Queue<String> eventQueue = new LinkedList<>();
 
     @Override
     public void run() {
         try {
-            while(flag) {
-                Thread.sleep(1000);
-                log.info("EventListener is listening...");
+            while(true) {
+                Thread.sleep(2000);
+                log.info("Thread ID : " + this.hashCode() + " EventListener is listening...");
+
+                if(eventQueue.isEmpty()) {
+                    continue;
+                }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void on() {
-        this.flag = true;
-        this.start();
-    }
-
-    public void off() {
-        this.flag = false;
+    public static EventListener getInstance() {
+        return new EventListener();
     }
 }

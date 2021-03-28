@@ -8,20 +8,23 @@ import org.springframework.stereotype.Component;
 public class LoggerBasedThread extends Thread {
     @Override
     public void run() {
-        heavyLogging();
-    }
-
-    private void heavyLogging() {
         long start = System.currentTimeMillis();
 
+        heavyLog();
+
+        log.info("Thread ID : " + this.hashCode() + " Logging Finish Time : " + (System.currentTimeMillis() - start));
+    }
+
+    public static LoggerBasedThread getInstance() {
+        return new LoggerBasedThread();
+    }
+
+    private void heavyLog() {
         try {
             Thread.sleep(2000);
 
         } catch (Exception e) {
             e.printStackTrace();
-
-        } finally {
-            log.info("Thread ID : " + this.hashCode() + " Logging Finish Time : " + (System.currentTimeMillis() - start));
         }
     }
 }
