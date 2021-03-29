@@ -17,17 +17,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
     private final LogService logService;
 
-    @ExecuteLog
     @GetMapping("/basedThread")
     public ResponseEntity<?> helloBasedThread() {
+        long startTime = System.currentTimeMillis();
+
         logService.loggingBasedThread();
+
+        log.info("Execute Time : " + (System.currentTimeMillis() - startTime));
         return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK.getReasonPhrase());
     }
 
     @ExecuteLog
     @GetMapping("/basedEvent")
     public ResponseEntity<?> helloBasedEvent() {
+        long startTime = System.currentTimeMillis();
+
         logService.loggingBasedEvent();
+
+        log.info("Execute Time : " + (System.currentTimeMillis() - startTime));
         return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK.getReasonPhrase());
     }
 }

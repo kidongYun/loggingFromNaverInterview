@@ -7,11 +7,18 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class Logger {
-    @ExecuteLog
+
+    public void logging() {
+        long startTime = System.currentTimeMillis();
+
+        heavyLog();
+
+        log.info("Execute Time : " + (System.currentTimeMillis() - startTime));
+    }
+
     public void heavyLog() {
         try {
             Thread.sleep(2000);
-            log.info("heavyLog");
         } catch (Exception e) {
             e.printStackTrace();
         }

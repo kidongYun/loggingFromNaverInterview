@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class LoggerExecutorBasedThread extends Thread {
     @Override
     public void run() {
-        new Logger().heavyLog();
+        new Logger().logging();
     }
 
     public static LoggerExecutorBasedThread getInstance() {

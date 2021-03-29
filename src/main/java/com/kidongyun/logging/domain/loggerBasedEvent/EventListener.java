@@ -9,7 +9,7 @@ import java.util.Queue;
 @Slf4j
 @Component
 public class EventListener extends Thread {
-    private static Queue<String> eventQueue = new LinkedList<>();
+    private static final Queue<String> eventQueue = new LinkedList<>();
 
     @Override
     public void run() {
