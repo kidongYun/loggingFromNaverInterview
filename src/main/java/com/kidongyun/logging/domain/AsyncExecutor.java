@@ -6,22 +6,33 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class AsyncExecutor {
-    private int count = 0;
+    private static int EXECUTED_THREAD_COUNT = 0;
 
     public void execute(Runnable runnable) {
-        setCount(++this.count);
-
-        new Thread(runnable).start();
-
-        setCount(--this.count);
+        new Thread(() -> {
+            countUp();
+            runnable.run();
+            countDown();
+        }).start();
     }
 
     public static AsyncExecutor getInstance() {
         return new AsyncExecutor();
     }
 
-    private synchronized void setCount(int count) {
-        log.info("count - " + count);
-        this.count = count;
+    private static synchronized void countUp() {
+        ++EXECUTED_THREAD_COUNT;
+    }
+
+    private static synchronized void countDown() {
+        --EXECUTED_THREAD_COUNT;
+    }
+
+    public static boolean isStopped() {
+        if(EXECUTED_THREAD_COUNT == 0) {
+            return true;
+        }
+
+        return false;
     }
 }

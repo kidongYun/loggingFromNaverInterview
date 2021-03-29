@@ -1,6 +1,6 @@
 package com.kidongyun.logging.controller;
 
-import com.kidongyun.logging.aspect.ExecuteLog;
+import com.kidongyun.logging.domain.AsyncExecutor;
 import com.kidongyun.logging.service.LogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,20 +35,52 @@ public class HelloController {
     public ResponseEntity<?> helloAsync() {
         long startTime = System.currentTimeMillis();
 
-        for(int i=0; i<1000; i++) {
+        for(int i=0; i<100; i++) {
             logService.loggingBasedAsync();
         }
 
-        log.info("Execute Time : " + (System.currentTimeMillis() - startTime));
+        while(!AsyncExecutor.isStopped()) { }
+
+        Runtime.getRuntime().gc();
         log.info("Memory Usage : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
+        log.info("Execute Time : " + (System.currentTimeMillis() - startTime));
         return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK.getReasonPhrase());
     }
 
-    @GetMapping("/basedThread")
-    public ResponseEntity<?> helloBasedThread() {
+    @GetMapping("/asyncWithPool")
+    public ResponseEntity<?> helloAsyncWithPool() throws InterruptedException {
         long startTime = System.currentTimeMillis();
 
-        logService.loggingBasedAsync();
+        Thread thread1 = new Thread(() -> {
+            try {
+                for(int i=0; i<5; i++) {
+                    Thread.sleep(1000);
+                    log.info("Thread 1 - " + i);
+                }
+
+                notify();
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            try {
+                for(int i=0; i<5; i++) {
+                    Thread.sleep(1000);
+                    log.info("Thread 2 - " + i);
+                }
+
+                notify();
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        thread1.start();
+        thread2.start();
 
         log.info("Execute Time : " + (System.currentTimeMillis() - startTime));
         return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK.getReasonPhrase());
