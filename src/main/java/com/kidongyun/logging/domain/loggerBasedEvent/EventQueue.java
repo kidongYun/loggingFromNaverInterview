@@ -7,9 +7,9 @@ import java.util.Queue;
 
 @Component
 public class EventQueue {
-    private Queue<String> queue = new LinkedList<>();
+    private static Queue<String> queue = new LinkedList<>();
 
-    public void add(String value) {
-        queue.add(value);
+    public static Queue<String> getInstance() {
+        return queue;
     }
 }

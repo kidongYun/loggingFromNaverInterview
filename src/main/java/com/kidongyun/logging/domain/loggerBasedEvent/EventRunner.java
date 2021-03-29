@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class EventRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
-        log.info("EventListener is launching...");
-        EventListener.getInstance().start();
+//        log.info("EventListener is launching...");
+//        EventListener.getInstance().start();
     }
 }

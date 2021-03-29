@@ -1,27 +1,25 @@
 package com.kidongyun.logging.domain.loggerBasedEvent;
 
+import com.kidongyun.logging.domain.Logger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.util.LinkedList;
-import java.util.Queue;
 
 @Slf4j
 @Component
 public class EventListener extends Thread {
-    private static final Queue<String> eventQueue = new LinkedList<>();
-
     @Override
     public void run() {
         try {
             while(true) {
+                log.info("EventListener is listening...");
                 Thread.sleep(2000);
-                if(eventQueue.isEmpty()) {
+
+                if(EventQueue.getInstance().isEmpty()) {
                     continue;
                 }
 
-                if("LOG".equals(eventQueue.peek())) {
-                    Thread.sleep(2000);
+                if("LOG".equals(EventQueue.getInstance().poll())) {
+                    new Logger().logging();
                 }
             }
 
